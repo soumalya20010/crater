@@ -28,6 +28,7 @@ void lxr_init(lexer_t* _lxr) {
     _lxr->filepath = NULL;
     _lxr->buffer = NULL;
     _lxr->buffer_live = 0;
+    _lxr->lex = &lxr_lex;
 }
 
 lexer_t* new_lexer(void) {

@@ -12,6 +12,8 @@ struct lexer_t {
     cstr_t filepath;
     str_t buffer;
     int buffer_live: 1;
+
+    int (*lex) (lexer_t* _lxr);
 };
 
 #endif // LEXER_DEFS_H
