@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "lexer_priv.h"
 #include "lexer.h"
@@ -6,6 +7,30 @@
 
 #define BUFFER_SIZE 256
 
+
+int lxr_lex(lexer_t* _lxr) {
+    if(!lxr_alloc_buffer(_lxr)) {
+        printf("Error: Failed to allocate buffer\n");
+        return 0;
+    }
+
+    return lxr_lex_file(_lxr);
+}
+
+int lxr_lex_file(lexer_t* _lxr) {
+    FILE* __fp = fopen(_lxr->filepath, "r");
+    if(!__fp) {
+        printf("Error: Failed to open file '%s'\n", _lxr->filepath);
+        return 0;
+    }
+
+    while(fgets(_lxr->buffer, BUFFER_SIZE, __fp)) {
+        printf("%s", _lxr->buffer);
+    }
+
+    fclose(__fp);
+    return 1;
+}
 
 int lxr_alloc_buffer(lexer_t* _lxr) {
     if(_lxr->buffer_live) return 1;
@@ -40,5 +65,6 @@ lexer_t* new_lexer(void) {
 }
 
 void delete_lexer(lexer_t* _lxr) {
+    lxr_dealloc_buffer(_lxr);
     free(_lxr);
 }
