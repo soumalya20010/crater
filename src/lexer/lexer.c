@@ -14,7 +14,7 @@ int lxr_alloc_buffer(lexer_t* _lxr) {
     if(!_lxr->buffer) return 0;
 
     _lxr->buffer_live = 1;
-    return 0;
+    return 1;
 }
 
 void lxr_dealloc_buffer(lexer_t* _lxr) {
