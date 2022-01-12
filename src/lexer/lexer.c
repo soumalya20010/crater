@@ -7,8 +7,27 @@
 #define BUFFER_SIZE 256
 
 
+int lxr_alloc_buffer(lexer_t* _lxr) {
+    if(_lxr->buffer_live) return 1;
+
+    _lxr->buffer = malloc(sizeof(char) * BUFFER_SIZE);
+    if(!_lxr->buffer) return 0;
+
+    _lxr->buffer_live = 1;
+    return 0;
+}
+
+void lxr_dealloc_buffer(lexer_t* _lxr) {
+    if(!_lxr->buffer_live) return;
+
+    free(_lxr->buffer);
+    _lxr->buffer_live = 0;
+}
+
 void lxr_init(lexer_t* _lxr) {
     _lxr->filepath = NULL;
+    _lxr->buffer = NULL;
+    _lxr->buffer_live = 0;
 }
 
 lexer_t* new_lexer(void) {
