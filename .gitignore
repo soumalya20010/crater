@@ -1,0 +1,10 @@
+# crater
+bin/
+crater
+*.o
+
+# vscode
+.vscode/
+
+# macos
+.DS_Store
