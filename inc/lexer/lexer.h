@@ -5,7 +5,7 @@
 #include "lexer_defs.h"
 
 
-lexer_t* new_lexer(void);
-void delete_lexer(lexer_t* _lxr);
+lexer_s* new_lexer(void);
+void delete_lexer(lexer_s* _lxr);
 
 #endif // LEXER_H

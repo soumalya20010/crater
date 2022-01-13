@@ -5,15 +5,15 @@
 #include "defs.h"
 
 
-typedef struct lexer_t lexer_t;
+typedef struct lexer_s lexer_s;
 
 
-struct lexer_t {
+struct lexer_s {
     cstr_t filepath;
     str_t buffer;
     int buffer_live: 1;
 
-    int (*lex) (lexer_t* _lxr);
+    int (*lex) (lexer_s* _lxr);
 };
 
 #endif // LEXER_DEFS_H

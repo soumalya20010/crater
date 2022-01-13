@@ -5,7 +5,7 @@
 int main(int _argc, str_t* _argv) {
     if(_argc == 1) return 0;
 
-    lexer_t* lexer = new_lexer();
+    lexer_s* lexer = new_lexer();
     if(!lexer) return 1;
 
     lexer->filepath = _argv[1];
