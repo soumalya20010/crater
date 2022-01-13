@@ -17,7 +17,8 @@ $(BIN_DIR):
 	-mkdir -p $@
 
 CC := clang
-CFLAGS := -std=c17 -O2 -Wall -Wextra
+DB_FLAGS ?=
+CFLAGS := -std=c17 -O2 -Wall -Wextra $(DB_FLAGS)
 
 
 SHR_INC_DIR := $(INC_DIR)$(SHR_DIR)
