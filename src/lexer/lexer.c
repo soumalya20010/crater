@@ -1,12 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "defs.h"
 #include "lexer_defs.h"
 #include "lexer_priv.h"
 #include "lexer.h"
 
 
 #define BUFFER_SIZE 256
+
+
+#define CURR_CHAR   _lxr->buffer[_lxr->offset]
+#define INC_LINE    _lxr->line++; _lxr->col++; _lxr->offset = 0
+#define INC_COL     _lxr->offset++; _lxr->col++
 
 
 int lxr_lex(lexer_s* _lxr) {
@@ -26,7 +32,7 @@ int lxr_lex_file(lexer_s* _lxr) {
     }
 
     while(fgets(_lxr->buffer, BUFFER_SIZE, __fp)) {
-        printf("%s", _lxr->buffer);
+        lxr_lex_line(_lxr);
     }
 
     fclose(__fp);
@@ -54,6 +60,9 @@ void lxr_dealloc_buffer(lexer_s* _lxr) {
 void lxr_init(lexer_s* _lxr) {
     _lxr->filepath = NULL;
     _lxr->buffer = NULL;
+    _lxr->offset = 0;
+    _lxr->line = 1;
+    _lxr->col = 1;
     _lxr->buffer_live = 0;
     _lxr->lex = &lxr_lex;
 }
