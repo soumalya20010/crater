@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "defs.h"
+#include "config.h"
 #include "lexer_defs.h"
 #include "lexer_priv.h"
 #include "lexer.h"
@@ -9,9 +9,9 @@
 
 #define BUFFER_SIZE 256
 
-
 #define CURR_CHAR   _lxr->buffer[_lxr->offset]
-#define INC_LINE    _lxr->line++; _lxr->col++; _lxr->offset = 0
+#define RST_COL     _lxr->offset = 0; _lxr->col = 1
+#define INC_LINE    _lxr->line++; RST_COL
 #define INC_COL     _lxr->offset++; _lxr->col++
 
 
@@ -40,6 +40,27 @@ int lxr_lex_file(lexer_s* _lxr) {
 }
 
 void lxr_lex_line(lexer_s* _lxr) {
+    do {
+        if(CURR_CHAR == '\n') {
+#if DEBUG_MODE
+            printf("{char: \'\\n\', line: %d, col: %d, offset: %d}\n\n",
+                _lxr->line, _lxr->col, _lxr->offset
+            );
+#endif // DEBUG_MODE
+            INC_LINE;
+            return;
+        }
+
+#if DEBUG_MODE
+            printf("{char: \'%c', line: %d, col: %d, offset: %d}\n",
+                CURR_CHAR, _lxr->line, _lxr->col, _lxr->offset
+            );
+#endif // DEBUG_MODE
+        // todo: collect tokens
+        INC_COL;
+    } while(CURR_CHAR);
+}
+
 int lxr_alloc_buffer(lexer_s* _lxr) {
     if(_lxr->buffer_live) return 1;
 
